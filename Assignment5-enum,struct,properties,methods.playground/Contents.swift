@@ -24,35 +24,35 @@ print("")
 
 // 2. შექმენით enum-ი Weather შემდეგი ქეისებით, Sunny, Cloudy, Rainy და Snowy. ამ ქეისებს უნდა ჰქონდეს associated value Celsius-ის სახით. დაწერეთ function რომელიც მიიღებს ამ enum-ს, და მოგვცემს რეკომენდაციას რა უნდა ჩავიცვათ შესაბამისი ამინდის მიხედვით.
 print("Task2:")
-enum Weather: Double {
-    case sunny
-    case cloudy
-    case rainy
-    case snowy
+enum Weather {
+    case sunny(celsius: Double)
+    case cloudy(celsius: Double)
+    case rainy(celsius: Double)
+    case snowy(celsius: Double)
 }
 
-func recommendedOutfit(weatherType: Weather, outsideTempCelsius: Weather.RawValue = 0) {
+func recommendedOutfit(weatherType: Weather) {
     switch weatherType {
-    case .sunny:
-        if outsideTempCelsius > 25 {
+    case let .sunny(celsius: Double):
+        if Double > 25 {
             print("It's hot, sunny weather. You can wear shirt and shorts.")
         } else {
             print("It's sunny, but cold weather. It's better to wear a sweater.")
         }
-    case .cloudy:
-        if outsideTempCelsius > 20 {
+    case let .cloudy(celsius: Double):
+        if Double > 20 {
             print("It's warm cloudy weather. It's better to wear a shirt and pants.")
         } else {
             print("It's cold cloudy weather. You should wear a jacket and pants.")
         }
-    case .rainy:
-        if outsideTempCelsius > 10 {
+    case let .rainy(celsius: Double):
+        if Double > 10 {
             print("It's rainy weather. It's better to wear a hoodie.")
         } else {
             print("It's cold rainy weather. Please wear a warm jacket and pants. Oh and don't forget to take an umbrella.")
         }
-    case .snowy:
-        if outsideTempCelsius > -5 {
+    case let .snowy(celsius: Double):
+        if Double > -5 {
             print("It's snowy weather. You should wear a coat, gloves and a scarf.")
         } else {
             print("It's freezing snowy weather. Wear as warm clothes as possible. Or just stay at home :)")
@@ -60,9 +60,9 @@ func recommendedOutfit(weatherType: Weather, outsideTempCelsius: Weather.RawValu
     }
 }
 
-recommendedOutfit(weatherType: .sunny, outsideTempCelsius: 30.00)
-recommendedOutfit(weatherType: .rainy, outsideTempCelsius: 5.00)
-recommendedOutfit(weatherType: .snowy)
+recommendedOutfit(weatherType: .sunny(celsius: 30))
+recommendedOutfit(weatherType: .rainy(celsius: 20))
+recommendedOutfit(weatherType: .snowy(celsius: 0))
 print("")
 
 // 3. შექმენით struct-ი Book, with properties როგორიცაა: title, author, publicationYear. ამის შემდეგ შექმენით array-ი Book-ის ტიპის, შექმენით რამოდენიმე Book-ის ობიექტი, და შეავსეთ array ამ წიგნებით. დაწერეთ function რომელიც მიიღებს ამ წიგნების array-ს და მიიღებს წელს. function-მა უნდა დაგვიბრუნოს ყველა წიგნი რომელიც გამოშვებულია ამ წლის შემდეგ. დავ-print-ოთ ეს წიგნები.
@@ -88,13 +88,7 @@ arrayOfBooks.append(book4)
 arrayOfBooks.append(book5)
 
 func booksReleasedSince(booksArray: [Book], releaseYear: Int) -> Array<Book> {
-    var resultArray: [Book] = []
-    for book in arrayOfBooks {
-        if book.publicationYear > releaseYear {
-            resultArray.append(book)
-        }
-    }
-    return resultArray
+    return booksArray.filter { $0.publicationYear > releaseYear }
 }
 
 print("Book(s) released after specified year are: ")
@@ -191,14 +185,7 @@ var playlistArray: [Song] = [
 ] //მითითებული არ იყო რომ უნდა შეგვექმნა სიმღერები როგორც ობიექტები და ცალცალკე დაგვემატებინა ამ Array-ში (როგორც მე3 task-ში). ამიტომ პირდაპირ array-ში დავამატე :)
 
 func findSongsByGenre(playlist: Array<Song>, selectedGenre: MusicGenre) -> Array<Song> {
-    var resultPlaylist: [Song] = []
-    
-    for song in playlist {
-        if song.genre == selectedGenre {
-            resultPlaylist.append(song)
-        }
-    }
-    return resultPlaylist
+    return playlist.filter { $0.genre == selectedGenre }
 }
 
 print("Here is a list of songs from selected genre(s): ")
